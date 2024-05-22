@@ -1,8 +1,8 @@
 PCF_FILE        =  test.pcf
 VCD_FILE 		    =  build/test.vcd
 SBY_FILE 		    =  formal/test.sby
-SYNTH_V_SRCS    =  rtl/*.v
-SYNTH_TOP_MODULE=  square_wave_gen
+SYNTH_V_SRCS    =  rtl/top.v rtl/hex_to_seven_seg.v rtl/square_wave_gen.v
+SYNTH_TOP_MODULE=  top
 
 YOSYS_FLAGS     =  -p 'synth_ice40 -json $(OUTPUT_JSON)'
 NEXTPNR_FLAGS   =  --hx8k --package ct256 --pcf-allow-unconstrained

@@ -3,15 +3,15 @@
 #include "misc_ncurses.h"
 #include "misc.h"
 
-template <typename StringType = std::string>
+template <typename StringType>
 struct fpga_button_t
 {
 	int x{};
 	int y{};
 	int width{};
 	int height{};
-	StringType button_pressed_ascii_art{};
-	StringType button_unpressed_ascii_art{};
+	StringType pressed_ascii_art{};
+	StringType unpressed_ascii_art{};
 	bool pressed{};
 };
 
@@ -31,36 +31,36 @@ _______
 |_____|
 )"};
 
-template <typename StringType = std::string>
+template <typename StringType>
 fpga_button_t<StringType> fpga_button_create_default()
 {
-	return fpga_button_t{
+	return fpga_button_t<StringType>{
 			.width = string_get_max_line_length(default_button_unpressed_str),
 			.height = string_get_vertical_length(default_button_unpressed_str),
-			.button_pressed_ascii_art = default_button_pressed_str,
-			.button_unpressed_ascii_art = default_button_unpressed_str
+			.pressed_ascii_art = default_button_pressed_str,
+			.unpressed_ascii_art = default_button_unpressed_str
 
 	};
 }
 
-template <typename StringType = std::string>
+template <typename StringType>
 void fpga_button_display(const fpga_button_t<StringType> &button)
 {
 	if (button.pressed)
 	{
-		ncurses_draw_ascii_art(button.y, button.x, button.button_pressed_ascii_art);
+		ncurses_draw_ascii_art(button.y, button.x, button.pressed_ascii_art);
 	}
 	else
-		ncurses_draw_ascii_art(button.y, button.x, button.button_unpressed_ascii_art);
+		ncurses_draw_ascii_art(button.y, button.x, button.unpressed_ascii_art);
 }
 
-template <typename StringType = std::string>
+template <typename StringType>
 bool fpga_button_is_pressed(const fpga_button_t<StringType> &button, int mouse_x, int mouse_y, int is_mouse_pressed)
 {
 	return is_mouse_pressed && point_in_box_collision(mouse_x, mouse_y, button.x, button.y, button.width, button.height);
 }
 
-template <typename CharType>
+template <typename CharType = char>
 struct fpga_seven_seg_t
 {
 	int x{};
@@ -97,4 +97,44 @@ template <typename CharType>
 void fpga_seven_seg_display(const fpga_seven_seg_t<CharType> &seven_seg)
 {
 	ncurses_draw_seven_seg(seven_seg.y, seven_seg.x, seven_seg.bar_len_y, seven_seg.bar_len_x, seven_seg.bar_char, seven_seg.seven_seg_info);
+}
+
+template <typename StringType>
+struct fpga_led_t
+{
+	int x{};
+	int y{};
+	bool state{};
+	StringType on_ascii_art{};
+	StringType off_ascii_art{};
+};
+static const std::string default_fpga_led_off_ascii_art{
+		R"(
+ --
+|  |
+\||/
+ ||
+	)"};
+static const std::string default_fpga_led_on_ascii_art{
+		R"(
+ --
+|##|
+\||/
+ ||
+	)"};
+
+template <typename StringType>
+fpga_led_t<StringType> fpga_led_create_default()
+{
+	return fpga_led_t<StringType>{
+			.on_ascii_art = default_fpga_led_on_ascii_art,
+			.off_ascii_art = default_fpga_led_off_ascii_art};
+}
+
+template <typename StringType>
+void fpga_led_display(const fpga_led_t<StringType>& led){
+	if(led.state == 1)
+	ncurses_draw_ascii_art(led.y, led.x, led.on_ascii_art);
+	else ncurses_draw_ascii_art(led.y, led.x, led.off_ascii_art);
+
 }

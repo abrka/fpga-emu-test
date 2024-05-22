@@ -5,10 +5,10 @@ project(verilator_test_proj)
 
 
 set(CXX_INCLUDE_DIRS sim)
-set(CXX_SRCS sim/main.cpp sim/misc.h)
+set(CXX_SRCS sim/main.cpp)
 
-set(VERILATOR_SRCS rtl/hex_to_seven_seg.v rtl/square_wave_gen.v )
-set(VERILATOR_TOP_MODULE hex_to_seven_seg)
+set(VERILATOR_SRCS rtl/top.v)
+set(VERILATOR_TOP_MODULE top)
 set(VERILATOR_INCLUDE_DIRS rtl)
 set(VERILATOR_ARGS --timescale 1ns/1ns -Wall )
 

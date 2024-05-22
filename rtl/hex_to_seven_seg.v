@@ -1,10 +1,8 @@
 module hex_to_seven_seg (
     input wire [15:0] i_data,
-    output wire o_dp,
     output reg [6:0] o_data
 );
 
-  assign o_dp = 0;
 
   always @(*) begin
     case (i_data)
