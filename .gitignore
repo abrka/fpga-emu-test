@@ -1,0 +1,5 @@
+build/
+synth_build/
+formal/test/
+*.pcf
+*.vcd

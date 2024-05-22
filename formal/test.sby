@@ -1,0 +1,16 @@
+[options]
+mode prove
+depth 31
+
+[engines]
+smtbmc
+
+[script]
+read -formal uart_tx.v
+# ... other files should go here
+prep -top uart_tx 
+
+[files]
+# list of all files and relative paths here 
+rtl/uart_tx.v
+rtl/uart_tx_comb.v
