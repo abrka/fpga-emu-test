@@ -37,6 +37,18 @@ int main(int argc, char const *argv[])
 	buttons[2].x = 50;
 	buttons[3].x = 60;
 
+	std::vector<fpga_button_t<std::string>> slide_switches{8, fpga_button_create_slide_switch<std::string>()};
+	for (auto &slide_switch : slide_switches)
+	{
+			slide_switch.y = 12;
+	}
+	for (size_t i = 0; i < slide_switches.size(); i++)
+	{
+		slide_switches[i].x = i * 10;
+	}
+	
+
+
 	std::vector<fpga_seven_seg_t<char>> seven_segs{2, fpga_seven_seg_create_default<char>()};
 	seven_segs[1].y = 0;
 	seven_segs[1].x = 20;
@@ -46,7 +58,7 @@ int main(int argc, char const *argv[])
 	leds[1].x = 90;
 	leds[2].x = 100;
 	leds[3].x = 110;
-	
+
 	leds[0].y = 2;
 	leds[1].y = 2;
 	leds[2].y = 2;
@@ -61,18 +73,26 @@ int main(int argc, char const *argv[])
 
 		for (auto &button : buttons)
 		{
-			button.pressed = fpga_button_is_pressed(button, ncurses_event.x, ncurses_event.y, ncurses_is_mouse_button_pressed);
+			button.state = fpga_button_get_state(button, ncurses_event.x, ncurses_event.y, ncurses_is_mouse_button_pressed);
+		}
+		for (auto &slide_switch : slide_switches)
+		{
+			slide_switch.state = fpga_slide_switch_get_state(slide_switch, ncurses_event.x, ncurses_event.y, ncurses_is_mouse_button_pressed);
 		}
 
 		seven_segs[0].seven_seg_info = tb_o_data_to_ncurses_seven_seg_info(tb.o_sseg);
 		leds[0].state = tb.o_led;
-		tb.i_btn = buttons[0].pressed;
+		tb.i_btn = buttons[0].state;
 
 		tick_module(ticks, tb, tfp);
 
 		for (auto &button : buttons)
 		{
 			fpga_button_display(button);
+		}
+		for (auto &slide_switch : slide_switches)
+		{
+			fpga_button_display(slide_switch);
 		}
 
 		for (auto &seven_seg : seven_segs)

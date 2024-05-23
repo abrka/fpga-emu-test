@@ -12,7 +12,7 @@ struct fpga_button_t
 	int height{};
 	StringType pressed_ascii_art{};
 	StringType unpressed_ascii_art{};
-	bool pressed{};
+	bool state{};
 };
 
 static const std::string default_button_unpressed_str{
@@ -25,10 +25,9 @@ _______
 
 static const std::string default_button_pressed_str{
 		R"(
-_______
-|     |
-|     |
-|_____|
+######
+######
+######
 )"};
 
 template <typename StringType>
@@ -43,21 +42,54 @@ fpga_button_t<StringType> fpga_button_create_default()
 	};
 }
 
+static const std::string default_slide_switch_on_str{
+		R"(
+_______
+|__###|
+)"};
+
+static const std::string default_slide_switch_off_str{
+		R"(
+_______
+|###__|
+)"};
+
+template <typename StringType>
+fpga_button_t<StringType> fpga_button_create_slide_switch()
+{
+	return fpga_button_t<StringType>{
+			.width = string_get_max_line_length(default_slide_switch_on_str),
+			.height = string_get_vertical_length(default_slide_switch_on_str),
+			.pressed_ascii_art = default_slide_switch_on_str,
+			.unpressed_ascii_art = default_slide_switch_off_str
+
+	};
+}
+
+
 template <typename StringType>
 void fpga_button_display(const fpga_button_t<StringType> &button)
 {
-	if (button.pressed)
-	{
+	if (button.state)
 		ncurses_draw_ascii_art(button.y, button.x, button.pressed_ascii_art);
-	}
 	else
 		ncurses_draw_ascii_art(button.y, button.x, button.unpressed_ascii_art);
 }
 
 template <typename StringType>
-bool fpga_button_is_pressed(const fpga_button_t<StringType> &button, int mouse_x, int mouse_y, int is_mouse_pressed)
+bool fpga_button_get_state(const fpga_button_t<StringType> &button, int mouse_x, int mouse_y, int is_mouse_pressed)
 {
 	return is_mouse_pressed && point_in_box_collision(mouse_x, mouse_y, button.x, button.y, button.width, button.height);
+}
+
+
+template <typename StringType>
+bool fpga_slide_switch_get_state(const fpga_button_t<StringType> &button, int mouse_x, int mouse_y, int is_mouse_pressed)
+{
+	if(fpga_button_get_state<StringType>(button, mouse_x, mouse_y, is_mouse_pressed)){
+		return !button.state;
+	}
+	else return button.state;
 }
 
 template <typename CharType = char>
