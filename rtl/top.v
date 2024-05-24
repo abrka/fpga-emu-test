@@ -55,10 +55,18 @@ module top #(
   //  .o_data (w_sign_mag_adder_out )
   //);
 
-  priority_encoder u_priority_encoder (
-      .i_req   ({4'b0, i_slide_switches}),
-      .o_data  (r_sseg_1_data),
-      .o_valid (o_leds[0])
+  // priority_encoder u_priority_encoder (
+  //     .i_req  ({4'b0, i_slide_switches}),
+  //     .o_data (r_sseg_1_data),
+  //     .o_valid(o_leds[0])
+  // );
+
+  dual_priority_encoder u_dual_priority_encoder (
+      .i_req    ({4'b0, i_slide_switches}),
+      .o_data_1 (r_sseg_1_data),
+      .o_data_2 (r_sseg_2_data),
+      .o_1_valid(o_leds[0]),
+      .o_2_valid(o_leds[1])
   );
 
 

@@ -15,7 +15,7 @@ module priority_encoder #(
   always @(*) begin
     o_data = 0;
     for (i = 0; i < REQ_N; i = i + 1) begin
-      if (i_req[REQ_N-i] == 1) o_data = REQ_N - i;
+      if (i_req[i] == 1) o_data = i;
     end
 
   end

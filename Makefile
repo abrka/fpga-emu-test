@@ -1,7 +1,7 @@
 PCF_FILE        =  test.pcf
 VCD_FILE 		    =  build/test.vcd
 SBY_FILE 		    =  formal/test.sby
-SYNTH_V_SRCS    =  rtl/dual_priority_encoder.v
+SYNTH_V_SRCS    =  rtl/dual_priority_encoder.v rtl/priority_encoder.v
 SYNTH_TOP_MODULE=  dual_priority_encoder
 
 
