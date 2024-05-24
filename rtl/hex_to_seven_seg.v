@@ -1,5 +1,8 @@
-module hex_to_seven_seg (
-    input wire [15:0] i_data,
+
+module hex_to_seven_seg 
+#(parameter N = 4)
+(
+    input wire [N-1:0] i_data,
     output reg [6:0] o_data
 );
 

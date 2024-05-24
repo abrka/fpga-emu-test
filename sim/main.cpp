@@ -80,9 +80,22 @@ int main(int argc, char const *argv[])
 			slide_switch.state = fpga_slide_switch_get_state(slide_switch, ncurses_event.x, ncurses_event.y, ncurses_is_mouse_button_pressed);
 		}
 
-		seven_segs[0].seven_seg_info = tb_o_data_to_ncurses_seven_seg_info(tb.o_sseg);
-		leds[0].state = tb.o_led;
+		seven_segs[0].seven_seg_info = tb_o_data_to_ncurses_seven_seg_info(tb.o_sseg_1);
+		seven_segs[1].seven_seg_info = tb_o_data_to_ncurses_seven_seg_info(tb.o_sseg_2);
+
+		for (size_t i = 0; i < leds.size(); i++)
+		{
+				leds[i].state = (std::bitset<8>(tb.o_leds))[i];
+		}
+	
 		tb.i_btn = buttons[0].state;
+
+		std::bitset<8> tb_i_slide_switch_data{};
+		for (size_t i = 0; i < slide_switches.size(); i++){
+			tb_i_slide_switch_data[i] = slide_switches[i].state;
+		}
+		tb.i_slide_switches = tb_i_slide_switch_data.to_ulong();
+
 
 		tick_module(ticks, tb, tfp);
 

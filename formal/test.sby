@@ -6,11 +6,10 @@ depth 31
 smtbmc
 
 [script]
-read -formal uart_tx.v
+read -formal sign_magnitude_adder.v
 # ... other files should go here
-prep -top uart_tx 
+prep -top sign_magnitude_adder 
 
 [files]
 # list of all files and relative paths here 
-rtl/uart_tx.v
-rtl/uart_tx_comb.v
+rtl/sign_magnitude_adder.v
