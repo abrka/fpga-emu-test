@@ -38,31 +38,26 @@ int main(int argc, char const *argv[])
 	buttons[3].x = 60;
 
 	std::vector<fpga_button_t<std::string>> slide_switches{8, fpga_button_create_slide_switch<std::string>()};
-	for (auto &slide_switch : slide_switches)
+
+	for (size_t i = 0; i < slide_switches.size() ; i++)
 	{
-			slide_switch.y = 12;
-	}
-	for (size_t i = 0; i < slide_switches.size(); i++)
-	{
-		slide_switches[i].x = i * 10;
+		slide_switches[i].x = (slide_switches.size() - 1 - i) * 10;
+		slide_switches[i].y = 12;
 	}
 	
 
 
 	std::vector<fpga_seven_seg_t<char>> seven_segs{2, fpga_seven_seg_create_default<char>()};
-	seven_segs[1].y = 0;
-	seven_segs[1].x = 20;
+	seven_segs[0].y = 0;
+	seven_segs[0].x = 20;
 
-	std::vector<fpga_led_t<std::string>> leds{4, fpga_led_create_default<std::string>()};
-	leds[0].x = 80;
-	leds[1].x = 90;
-	leds[2].x = 100;
-	leds[3].x = 110;
-
-	leds[0].y = 2;
-	leds[1].y = 2;
-	leds[2].y = 2;
-	leds[3].y = 2;
+	std::vector<fpga_led_t<std::string>> leds{8, fpga_led_create_default<std::string>()};
+	for (size_t i = 0; i < leds.size(); i++)
+	{
+		leds[i].x = (leds.size() - 1 - i) * 10 + 80;
+		leds[i].y = 2;
+	}
+	
 
 	MEVENT ncurses_event{};
 	bool ncurses_is_mouse_button_pressed{};

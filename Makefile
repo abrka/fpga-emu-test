@@ -1,8 +1,8 @@
 PCF_FILE        =  test.pcf
 VCD_FILE 		    =  build/test.vcd
 SBY_FILE 		    =  formal/test.sby
-SYNTH_V_SRCS    =  rtl/dual_priority_encoder.v rtl/priority_encoder.v
-SYNTH_TOP_MODULE=  dual_priority_encoder
+SYNTH_V_SRCS    =  rtl/*.v
+SYNTH_TOP_MODULE=  top
 
 
 YOSYS_FLAGS     =  -p 'synth_ice40 -json $(OUTPUT_JSON)'
