@@ -1,3 +1,4 @@
+`default_nettype none
 module dual_priority_encoder #(
     parameter REQ_N = 12,
     parameter OUT_N = $clog2(REQ_N)

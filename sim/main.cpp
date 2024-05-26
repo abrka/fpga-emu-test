@@ -29,27 +29,26 @@ int main(int argc, char const *argv[])
 	// test_square_wave_gen(tb, tfp);
 
 	std::vector<fpga_button_t<std::string>> buttons{4, fpga_button_create_default<std::string>()};
-	buttons[0].x = 50;
-	buttons[1].x = 60;
-
-	buttons[2].y = 5;
-	buttons[3].y = 5;
-	buttons[2].x = 50;
-	buttons[3].x = 60;
+	for (size_t i = 0; i < buttons.size(); i++)
+	{
+		buttons[i].x = (buttons.size() - 1 - i) * 10 + 100;
+		buttons[i].y = 10;
+	}
 
 	std::vector<fpga_button_t<std::string>> slide_switches{8, fpga_button_create_slide_switch<std::string>()};
 
-	for (size_t i = 0; i < slide_switches.size() ; i++)
+	for (size_t i = 0; i < slide_switches.size(); i++)
 	{
 		slide_switches[i].x = (slide_switches.size() - 1 - i) * 10;
 		slide_switches[i].y = 12;
 	}
-	
 
-
-	std::vector<fpga_seven_seg_t<char>> seven_segs{2, fpga_seven_seg_create_default<char>()};
-	seven_segs[0].y = 0;
-	seven_segs[0].x = 20;
+	std::vector<fpga_seven_seg_t<char>> seven_segs{4, fpga_seven_seg_create_default<char>()};
+	for (size_t i = 0; i < seven_segs.size(); i++)
+	{
+		seven_segs[i].x = (seven_segs.size() - 1 - i) * 20;
+		seven_segs[i].y = 0;
+	}
 
 	std::vector<fpga_led_t<std::string>> leds{8, fpga_led_create_default<std::string>()};
 	for (size_t i = 0; i < leds.size(); i++)
@@ -57,7 +56,6 @@ int main(int argc, char const *argv[])
 		leds[i].x = (leds.size() - 1 - i) * 10 + 80;
 		leds[i].y = 2;
 	}
-	
 
 	MEVENT ncurses_event{};
 	bool ncurses_is_mouse_button_pressed{};
@@ -75,22 +73,29 @@ int main(int argc, char const *argv[])
 			slide_switch.state = fpga_slide_switch_get_state(slide_switch, ncurses_event.x, ncurses_event.y, ncurses_is_mouse_button_pressed);
 		}
 
-		seven_segs[0].seven_seg_info = tb_o_data_to_ncurses_seven_seg_info(tb.o_sseg_1);
-		seven_segs[1].seven_seg_info = tb_o_data_to_ncurses_seven_seg_info(tb.o_sseg_2);
+
+		for (size_t i = 0; i < seven_segs.size(); i++)
+		{
+			std::bitset<4> tb_sseg_enables {tb.o_sseg_enables};
+			bool is_this_sseg_enabled = tb_sseg_enables[i];
+			seven_segs[i].seven_seg_info = tb_o_data_to_ncurses_seven_seg_info( is_this_sseg_enabled ? tb.o_sseg : 0 );
+		}
+		
+		
 
 		for (size_t i = 0; i < leds.size(); i++)
 		{
-				leds[i].state = (std::bitset<8>(tb.o_leds))[i];
+			leds[i].state = (std::bitset<8>(tb.o_leds))[i];
 		}
-	
+
 		tb.i_btn = buttons[0].state;
 
 		std::bitset<8> tb_i_slide_switch_data{};
-		for (size_t i = 0; i < slide_switches.size(); i++){
+		for (size_t i = 0; i < slide_switches.size(); i++)
+		{
 			tb_i_slide_switch_data[i] = slide_switches[i].state;
 		}
 		tb.i_slide_switches = tb_i_slide_switch_data.to_ulong();
-
 
 		tick_module(ticks, tb, tfp);
 
