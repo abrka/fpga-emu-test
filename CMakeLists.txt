@@ -26,11 +26,11 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_compile_options(verilator_test PRIVATE -pthread -gdwarf-4 -DLinux -fPIC -Wno-deprecated -pipe -fno-elide-type
                          -fdiagnostics-show-template-tree -Wall -Wextra -Wpedantic -Wvla -Wextra-semi -Wnull-dereference
                          -Wswitch-enum -fvar-tracking-assignments -Wduplicated-cond -Wduplicated-branches -rdynamic
-                         -Wsuggest-override -fstack-protector) #-fsanitize=address,undefined,leak)
+                         -Wsuggest-override -fstack-protector -fsanitize=address,undefined,leak)
 endif()
 
 
-#target_link_options(verilator_test PRIVATE -fsanitize=address,undefined,leak)               
+target_link_options(verilator_test PRIVATE -fsanitize=address,undefined,leak)               
                 
 
 find_package(verilator)
