@@ -34,8 +34,8 @@ template <typename StringType>
 fpga_button_t<StringType> fpga_button_create_default()
 {
 	return fpga_button_t<StringType>{
-			.width = string_get_max_line_length(default_button_unpressed_str),
-			.height = string_get_vertical_length(default_button_unpressed_str),
+			.width = (int)string_get_max_line_length(default_button_unpressed_str),
+			.height = (int)string_get_vertical_length(default_button_unpressed_str),
 			.pressed_ascii_art = default_button_pressed_str,
 			.unpressed_ascii_art = default_button_unpressed_str
 
@@ -58,8 +58,8 @@ template <typename StringType>
 fpga_button_t<StringType> fpga_button_create_slide_switch()
 {
 	return fpga_button_t<StringType>{
-			.width = string_get_max_line_length(default_slide_switch_on_str),
-			.height = string_get_vertical_length(default_slide_switch_on_str),
+			.width = (int)string_get_max_line_length(default_slide_switch_on_str),
+			.height = (int)string_get_vertical_length(default_slide_switch_on_str),
 			.pressed_ascii_art = default_slide_switch_on_str,
 			.unpressed_ascii_art = default_slide_switch_off_str
 

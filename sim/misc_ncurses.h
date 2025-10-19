@@ -39,7 +39,7 @@ struct seven_seg_info_t
 template <typename T>
 seven_seg_info_t tb_o_data_to_ncurses_seven_seg_info(T tb_o_data)
 {
-	std::bitset<7> tb_o_seven_seg_info{tb_o_data};
+	std::bitset<7> tb_o_seven_seg_info{(unsigned long long)tb_o_data};
 	seven_seg_info_t seven_seg_info{
 			.a = tb_o_seven_seg_info[0],
 			.b = tb_o_seven_seg_info[1],
