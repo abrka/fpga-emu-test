@@ -16,7 +16,7 @@ OUTPUT_BIN       =  $(SYNTH_BUILD_DIR)/test.bin
 clean:
 	rm -rf $(SYNTH_BUILD_DIR)
 
-sim: $(IVERILOG_SRCS)
+sim:
 	iverilog $(IVERILOG_SRCS)
 	./a.out
 	rm -rf ./a.out

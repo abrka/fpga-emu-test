@@ -41,7 +41,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Install Dependencies
-      run: sudo apt-get install -y verilator nextpnr-ice40 yosys fpga-icestorm
+      run: sudo apt-get install -y iverilog verilator nextpnr-ice40 yosys fpga-icestorm
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
       id: strings
