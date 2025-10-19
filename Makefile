@@ -1,7 +1,7 @@
 PCF_FILE         =  test.pcf
 VCD_FILE 		     =  build/test.vcd
 SBY_FILE 		     =  formal/test.sby
-SYNTH_V_SRCS     =  rtl/*.v
+SYNTH_V_SRCS     =  rtl/binary_counter.v rtl/dual_priority_encoder.v rtl/hex_to_seven_seg.v rtl/mod_n_counter.v rtl/priority_encoder.v rtl/rising_edge_detect.v rtl/shift_reg.v rtl/sign_magnitude_adder.v rtl/square_wave_gen.v rtl/sseg_time_mux.v rtl/top.v 
 SYNTH_TOP_MODULE =  top
 IVERILOG_SRCS	   =  rtl/binary_counter_tb.v rtl/binary_counter.v
  
