@@ -13,6 +13,8 @@ OUTPUT_ASC       =  $(SYNTH_BUILD_DIR)/test.asc
 OUTPUT_JSON      =  $(SYNTH_BUILD_DIR)/test.json
 OUTPUT_BIN       =  $(SYNTH_BUILD_DIR)/test.bin
 
+.PHONY: clean sim synth view_vcd verify 
+
 clean:
 	rm -rf $(SYNTH_BUILD_DIR)
 
