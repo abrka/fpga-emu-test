@@ -19,6 +19,7 @@ clean:
 sim: $(IVERILOG_SRCS)
 	iverilog $(IVERILOG_SRCS)
 	./a.out
+	rm -rf ./a.out
 
 synth: $(SYNTH_V_SRCS)
 	mkdir -p $(SYNTH_BUILD_DIR)
